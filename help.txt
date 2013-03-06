@@ -1,0 +1,34 @@
+From : http://www.epdeveloperchallenge.com/
+
+We created this fun challenge for software developers as we are looking for the best in the industry. If you can complete the challenge, we definitely want to talk to you! The goal is to find your way from the start to the finish in a maze that you cannot see. The maze is huge, comprised of 2500 possible coordinates (50 x 50). So, we don't recommend trying to solve it manually. :)
+
+At the completion of the blackout maze, you will be given instructions to submit your information to Elastic Path and we’ll contact you shortly afterwards.
+
+Please note: The EP Maze server exposes a REST level 2 interface to a maze. At each coordinate of the maze, you can only see the valid directions of travel from that coordinate to the neighbouring coordinates.
+
+
+The Blackout server exposes the following resources:
+
+Resource	Description
+POST /api/init	:Initializes a new maze which will exist for 10 minutes. No data is required in the request body. The response includes a mazeGuid which must be used as a request parameter for all other resource calls. This method may generate a 400 http status if there are too many mazes currently in memory on the server.
+POST /api/move	:Move in the specified direction. The request must specify a contentType of "application/x-www-form-urlencoded", and must contain a mazeGuid parameter (returned by the init call), and a direction (NORTH, WEST, EAST, or SOUTH). This method may generate a 400 http status if you attempt to move in a direction that is not allowed due to a wall. A sample request body is shown below:
+mazeGuid=927ee80e-c19d-4e03-a1e7-4277fd109d66&direction=NORTH
+POST /api/jump	:Jump to a specified location in the maze. You can only jump to a location where you have previously visited. The request must specify a contentType of "application/x-www-form-urlencoded", and must contain a mazeGuid parameter (returned by the init call), and an x coordinate, and a y coordinate. This method may generate a 400 http status if you attempt to jump to a location that you have not previously visited. A sample request body is shown below:
+mazeGuid=927ee80e-c19d-4e03-a1e7-4277fd109d66&x=10&y=15
+GET /api/currentCell	:Retrieve the standard response information for your current location in the maze.
+The response format for all of the resource requests is the same. It is a JSON string with a top-level property named "currentCell", and multiple inner properties. The table below describes each of the inner response properties:
+
+Response Property	Description
+mazeGuid	        A unique identifier representing the current maze. This must be specified as part of all of the resource requests except init, which generates the maze and the identifier.
+note	            General information about the current cell of the maze. When you reach the final cell of the maze, this will contain information about how to prove to Elastic Path human resources that you completed the maze.
+atEnd	            A boolean indicating whether you have reached the final cell of the maze.
+previouslyVisited	A boolean indicating whether you have visited this cell before.
+north           	Indicates whether the route to the north is BLOCKED, VISITED, or UNEXPLORED. If the direction is BLOCKED, you cannot move in that direction.
+east	            Indicates whether the route to the east is BLOCKED, VISITED, or UNEXPLORED. If the direction is BLOCKED, you cannot move in that direction.
+south            	Indicates whether the route to the south is BLOCKED, VISITED, or UNEXPLORED. If the direction is BLOCKED, you cannot move in that direction.
+west            	Indicates whether the route to the westis BLOCKED, VISITED, or UNEXPLORED. If the direction is BLOCKED, you cannot move in that direction.
+x	                The horizontal coordinate of your current position in the maze.
+y	                The vertical coordinate of your current position in the maze.
+A sample response is shown below:
+
+{"currentCell":{"note":"","mazeGuid":"927ee80e-c19d-4e03-a1e7-4277fd109d66","atEnd":false,"north":"VISITED","east":"UNEXPLORED","west":"BLOCKED","south":"BLOCKED","x":0,"y":1,"previouslyVisited":false}}
