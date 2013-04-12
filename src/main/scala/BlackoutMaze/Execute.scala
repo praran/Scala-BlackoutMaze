@@ -2,9 +2,6 @@ package BlackoutMaze
 
 /**
  * Created with IntelliJ IDEA.
- * User: u0166888
- * Date: 05/03/13
- * Time: 11:41
  * To change this template use File | Settings | File Templates.
  */
 object Execute {
