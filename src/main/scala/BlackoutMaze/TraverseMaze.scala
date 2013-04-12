@@ -7,9 +7,6 @@ import collection.mutable
 
 /**
  * Created with IntelliJ IDEA.
- * User: u0166888
- * Date: 05/03/13
- * Time: 11:42
  * To change this template use File | Settings | File Templates.
  */
 
